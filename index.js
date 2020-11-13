@@ -2,6 +2,7 @@ const express = require('express')
 const app = express();
 const cors = require('cors')
 const moviesJson = require('./Utils/Assets/movies.json');
+const AKELAB = require('./Utils/Constants');
 
 app.use(cors())
 
@@ -10,7 +11,12 @@ app.get('/', (req, res) => {
         const { Akelab } = req.query;
         if (!Akelab) {
             res.sendStatus(404);
-            return res.json({ error: true, errorMsg: "Por favor envíe el código Akelab." })
+            return res.json({ error: true, errorMsg: "Por favor envíe el código Akelab." });
+        }
+
+        if (AKELAB !== Akelab) {
+            res.sendStatus(403);
+            return res.json({ error: true, errorMsg: "Por favor envíe el código correcto de Akelab." });
         }
 
         res.status(200);
